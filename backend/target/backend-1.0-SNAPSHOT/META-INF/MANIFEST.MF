@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
 Created-By: IntelliJ IDEA
-Built-By: LDAR
-Build-Jdk: 1.8
+Built-By: ldar
+Build-Jdk: 1.8.0_222
 

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import ru.itis.model.User
 
-@RestController("/api")
+@RestController
 class SignInController {
 
     @PostMapping("/sign")
