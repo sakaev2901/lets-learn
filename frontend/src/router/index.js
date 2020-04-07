@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import SignUp from "../views/SignUp";
 import SignIn from "../views/SignIn";
 import Profile from "../views/Profile";
+import Confirmation from "../views/Confirmation";
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,11 @@ const routes = [
         name: 'Profile',
         component: Profile
     },
+    {
+        path: '/confirmation',
+        name: "Confirmation",
+        component: Confirmation
+    }
 ]
 
 const router = new VueRouter({

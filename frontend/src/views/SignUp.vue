@@ -31,6 +31,8 @@
 </template>
 
 <script>
+    import {AXIOS} from "../main";
+
     export default {
         name: "SignUp",
 
@@ -42,7 +44,15 @@
 
         methods: {
             signUp() {
-
+                let self = this;
+                AXIOS.post('/signUp', {mail: this.mail, password: this.password, login: this.login})
+                .then(function (response) {
+                    const status = JSON.parse(response.status)
+                    if (status == '200') {
+                        self.$router.push('/confirmation')
+                    }
+                })
+                console.log(5)
             }
         }
     }

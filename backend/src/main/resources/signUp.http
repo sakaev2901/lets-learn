@@ -1,9 +1,10 @@
-POST http://localhost:8080/api/signUp
+POST http://localhost:8081/api/signUp
 Content-Type: application/json
 
 {
-  "id": 5,
-  "name": "Eldar"
+  "login": "ldar",
+  "mail": "mail",
+  "password": "elvin2901"
 }
 
 ###
@@ -15,7 +16,7 @@ GET http://localhost:8080/main
 Accept: application/json
 
 ###
-POST http://localhost:8080/signUp
+POST http://localhost:8081/main
 Content-Type: application/json
 
 {
