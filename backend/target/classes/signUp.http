@@ -2,9 +2,7 @@ POST http://localhost:8081/api/signUp
 Content-Type: application/json
 
 {
-  "login": "ldar",
-  "mail": "mail",
-  "password": "elvin2901"
+  "mail": "mail"
 }
 
 ###

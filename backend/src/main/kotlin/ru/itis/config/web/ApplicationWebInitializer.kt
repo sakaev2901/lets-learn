@@ -1,6 +1,7 @@
-package ru.itis.config
+package ru.itis.config.web
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer
+import ru.itis.config.app.ApplicationContextConfiguration
 
 class ApplicationWebInitializer: AbstractAnnotationConfigDispatcherServletInitializer() {
     override fun getRootConfigClasses(): Array<Class<*>>? {

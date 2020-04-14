@@ -5,5 +5,5 @@ import ru.itis.model.User
 
 interface UsersRepository {
     fun save(model: User)
-    fun findByName(name: String):User
+    fun findByUsername(name: String?):User
 }

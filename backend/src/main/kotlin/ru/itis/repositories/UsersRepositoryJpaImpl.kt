@@ -16,6 +16,9 @@ open class UsersRepositoryJpaImpl: UsersRepository {
     @Transactional
     override fun save(model: User) = entityManager.persist(model)
 
-    override fun findByName(name: String): User = entityManager.find(User::class.java, 1);
+    override fun findByUsername(name: String?): User = entityManager
+            .createQuery("select c from User c where c.username = :username", User::class.java)
+            .setParameter("username", name)
+            .singleResult
 
 }

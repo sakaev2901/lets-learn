@@ -15,7 +15,7 @@ class MainController {
     lateinit var gson:Gson
 
     @GetMapping("/main")
-    fun getPage() = gson.toJson(User())
+    fun getPage() = gson.toJson(User("Eldar", "ell", "d"))
 
 
     @PostMapping("/main")

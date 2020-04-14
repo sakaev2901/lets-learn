@@ -11,6 +11,7 @@ import ru.itis.model.User
 import ru.itis.repositories.UsersRepository
 import ru.itis.web.response.ResponseMessage
 import java.lang.reflect.Member
+import javax.servlet.http.HttpServletRequest
 
 
 @CrossOrigin
@@ -21,21 +22,10 @@ class SignUpController {
     @Autowired
     lateinit var usersRepository: UsersRepository
 
-//    @PostMapping("/signUp", consumes = ["application/json"], produces = ["application/json"])
-//    fun getFields(@RequestBody newUser: User): ResponseEntity<*>{
-//        val userCandidate: User
-//        val user = User()
-//                .apply { login = newUser.login }
-//                .apply { mail = newUser.mail }
-//                .apply { password = newUser.password}
-//        usersRepository.save(user)
-//        println(5)
-//        return ResponseEntity(ResponseMessage("Success") ,HttpStatus.OK)
-//    }
-
+    @CrossOrigin
     @PostMapping("/signUp")
-    fun getFields() {
-        println(5)
+     fun getField(@RequestBody newUser: User) {
+        println(newUser.mail)
     }
 
 
