@@ -7,5 +7,11 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/lets_learn</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="lets_learn@localhost [2]" uuid="94aa1aa4-4540-4110-aef8-6f99fe34c3d1">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/lets_learn</jdbc-url>
+    </data-source>
   </component>
 </project>

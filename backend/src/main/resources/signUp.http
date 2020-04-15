@@ -1,8 +1,20 @@
-POST http://localhost:8081/api/signUp
+POST http://localhost:8080/api/signUp
 Content-Type: application/json
 
 {
-  "mail": "mail"
+  "mail": "mail",
+  "name": "Eldar",
+  "surname": "Sakaev",
+  "username": "ldar",
+  "password": "elvin2901"
+}
+###
+POST http://localhost:8080/api/signIn
+Content-Type: application/json
+
+{
+"username": "ldar",
+"password": "elvin2901"
 }
 
 ###
@@ -12,6 +24,7 @@ Accept: application/json
 ###
 GET http://localhost:8080/main
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsfZGFyIiwiaWF0IjoxNTg2OTgzMzcxLCJleHAiOjE1ODcwNjk3NzF9.OQjxWJ54BMe7UnNvF0f5Q3aHaauUTzErUHRT21rx3O4
 
 ###
 POST http://localhost:8081/main

@@ -1,3 +1,10 @@
 package ru.itis.model
 
-data class NewUser(var login: String, var mail: String, var password: String)
+class NewUser {
+    lateinit var username: String
+    lateinit var name: String
+    lateinit var surname: String
+    lateinit var mail: String
+    lateinit var password: String
+  constructor()
+}

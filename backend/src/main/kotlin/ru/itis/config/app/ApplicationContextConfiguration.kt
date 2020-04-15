@@ -6,9 +6,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.PropertySource
+import org.springframework.core.env.Environment
 import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
 import org.springframework.orm.jpa.vendor.Database
@@ -29,6 +32,7 @@ import javax.persistence.EntityManagerFactory
 @EnableTransactionManagement
 @Configuration
 @ComponentScan("ru.itis")
+@PropertySource("classpath:application.properties")
 open class ApplicationContextConfiguration {
 
     @Bean

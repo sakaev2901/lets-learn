@@ -20,6 +20,7 @@ class User : UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id = 0
     lateinit var name: String
+    lateinit var surname: String
     lateinit var mail: String
     private var username: String = ""
     private var password: String = ""
@@ -27,13 +28,16 @@ class User : UserDetails {
     @OneToMany
     lateinit var posts: List<Post>
 
-    constructor(name: String, mail: String, username: String) {
-        this.name = name
+    constructor()
+
+    constructor(name: String, surname: String, mail: String, username: String, password: String, role: String) {
         this.mail = mail
+        this.name = name
+        this.password = password
+        this.role = role
+        this.surname = surname
         this.username = username
     }
-
-    constructor()
 
     override fun getAuthorities() = arrayListOf(SimpleGrantedAuthority(role))
 

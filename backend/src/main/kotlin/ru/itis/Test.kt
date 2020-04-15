@@ -10,5 +10,5 @@ fun  main() {
     val usersRepository = applicationContext.getBean(UsersRepository::class.java)
     println(usersRepository)
 //    usersRepository.save(User("Eldar", "1", "ldar"))
-    println(usersRepository.findByUsername("ldar").name)
+//    println(usersRepository.findByUsername("ldar").name)
 }

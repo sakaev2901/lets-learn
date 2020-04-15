@@ -58,8 +58,8 @@
                         <img src="https://randomuser.me/api/portraits/men/81.jpg">
                     </v-list-item-avatar>
                     <v-list-item-content>
-                        <v-list-item-title>Application</v-list-item-title>
-                        <v-list-item-subtitle>Subtext</v-list-item-subtitle>
+                        <v-list-item-title>Eldar</v-list-item-title>
+                        <v-list-item-subtitle>Sakaev</v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>
 
