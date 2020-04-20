@@ -1,8 +1,10 @@
 package ru.itis.model
 
+import lombok.Data
 import lombok.ToString
 import javax.persistence.*
 
+@Data
 @Entity
 class Post {
 
@@ -15,5 +17,5 @@ class Post {
 
     @ManyToOne
     @ToString.Exclude
-    lateinit var user: User
+    var user: User? = null
 }

@@ -5,53 +5,49 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.config.annotation.SecurityConfigurerAdapter
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
-import org.springframework.security.core.userdetails.AuthenticationUserDetailsService
-import org.springframework.security.core.userdetails.UserDetailsService
-import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import ru.itis.jwt.JwtAuthEntryPoint
-import ru.itis.jwt.JwtTokenFilter
+import org.springframework.security.web.DefaultSecurityFilterChain
+import ru.itis.security.JwtConfigurer
+import ru.itis.security.TokenProvider
 
 @Configuration
 @EnableWebSecurity
 @ComponentScan("ru.itis")
-open class SecurityConfig: WebSecurityConfigurerAdapter(){
+open class SecurityConfig: WebSecurityConfigurerAdapter() {
 
     @Autowired
-    private lateinit var passwordEncoder: PasswordEncoder
-    @Autowired
-    private lateinit var userDetailsService: UserDetailsService
-    @Autowired
-    private lateinit var jwtAuthEntryPoint: JwtAuthEntryPoint
+    lateinit var tokenProvider: TokenProvider
 
     @Bean
-    open fun jwtTokenFilter() = JwtTokenFilter()
-
-    override fun configure(auth: AuthenticationManagerBuilder?) {
-        auth
-                ?.userDetailsService(userDetailsService)
-                ?.passwordEncoder(passwordEncoder)
+    @Throws(Exception::class)
+    override fun authenticationManagerBean(): AuthenticationManager {
+        return super.authenticationManagerBean()
     }
 
-    override fun configure(http: HttpSecurity?) {
-        http!!.csrf().disable().authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint).and()
+    @Throws(Exception::class)
+    override fun configure(http: HttpSecurity) {
+        http
+                .httpBasic().disable()
+                .csrf().disable()
+                .cors().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
-        http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter::class.java)
+                .and()
+                .authorizeRequests()
+                .antMatchers(LOGIN_ENDPOINT).permitAll()
+                .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
+                .anyRequest().permitAll()
+                .and()
+                .apply<SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity>>(JwtConfigurer(tokenProvider))
     }
 
-    @Bean
-    override fun authenticationManager(): AuthenticationManager {
-        return super.authenticationManager()
+    companion object {
+        private const val ADMIN_ENDPOINT = "/api/admin"
+        private const val LOGIN_ENDPOINT = "/api/signIn"
     }
+
 
 }

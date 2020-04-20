@@ -19,4 +19,6 @@ open class PostsRepositoryImpl: PostsRepository {
         entityManager.persist(post)
     }
 
+    override fun findAll() = entityManager.createQuery("select c from Post c", Post::class.java).resultList
+
 }

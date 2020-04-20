@@ -1,3 +1,7 @@
+GET http://localhost:8081/api/allPosts
+Accept: application/json
+
+###
 POST http://localhost:8080/api/signUp
 Content-Type: application/json
 
@@ -24,7 +28,7 @@ Accept: application/json
 ###
 GET http://localhost:8080/main
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsZGFyIiwiaWF0IjoxNTg2OTgzMzcxLCJleHAiOjE1ODcwNjk3NzF9.OQjxWJ54BMe7UnNvF0f5Q3aHaauUTzErUHRT21rx3O4
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsfZGFyIiwiaWF0IjoxNTg2OTgzMzcxLCJleHAiOjE1ODcwNjk3NzF9.OQjxWJ54BMe7UnNvF0f5Q3aHaauUTzErUHRT21rx3O4
 
 ###
 POST http://localhost:8081/main

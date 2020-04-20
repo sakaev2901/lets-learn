@@ -25,7 +25,7 @@ class User : UserDetails {
     private var username: String = ""
     private var password: String = ""
     lateinit var role: String
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     lateinit var posts: List<Post>
 
     constructor()

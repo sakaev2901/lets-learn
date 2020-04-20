@@ -10,7 +10,7 @@
                     </v-text-field>
                     <v-text-field label="Password" v-model="password">
                     </v-text-field>
-                    <v-btn>
+                    <v-btn @click="signIn">
                         Войти
                     </v-btn>
                 </v-form>
@@ -21,8 +21,37 @@
 </template>
 
 <script>
+    import {AXIOS} from "../main";
+
     export default {
-        name: "SignIn"
+        name: "SignIn",
+        data: () => ({
+            username: '',
+            password: ''
+        }),
+        methods: {
+            signIn() {
+                let self = this;
+                AXIOS.post("/signIn", {
+                    username: self.username,
+                    password: self.password
+                })
+                    .then(function (response) {
+                        console.log(response.data.token)
+                            self.$store.dispatch('login', {
+                                token: response.data.token,
+                                username: response.data.username,
+                                role: response.data.role
+                            })
+                            self.$router.push("/profile")
+                        }
+                    ).catch(
+                    function (response) {
+                        alert(response)
+                    }
+                )
+            }
+        }
     }
 </script>
 

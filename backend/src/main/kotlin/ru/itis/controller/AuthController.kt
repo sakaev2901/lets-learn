@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.itis.dto.AuthDto
-import ru.itis.jwt.JwtProvider
 import ru.itis.model.NewUser
 import ru.itis.model.User
 import ru.itis.repositories.UsersRepository
+import ru.itis.security.TokenProvider
 import ru.itis.web.response.JwtResponse
 import ru.itis.web.response.ResponseMessage
 
@@ -30,7 +30,7 @@ class AuthController {
     @Autowired
     lateinit var passwordEncoder: PasswordEncoder
     @Autowired
-    lateinit var tokenProvider: JwtProvider
+    lateinit var tokenProvider: TokenProvider
 
     @PostMapping("/signIn")
     fun signIn(@RequestBody authDto: AuthDto): ResponseEntity<*> {
@@ -39,7 +39,8 @@ class AuthController {
                 ?: return ResponseEntity(ResponseMessage("User not found"), HttpStatus.BAD_REQUEST)
         val authentication = authenticationManager.authenticate(UsernamePasswordAuthenticationToken(authDto.username, authDto.password))
         SecurityContextHolder.getContext().authentication = authentication
-        return ResponseEntity.ok(JwtResponse(tokenProvider.generateJwtToken(user.username), user.username, user.role))
+        val token = tokenProvider.createToken(user.username, user.role)!!
+        return ResponseEntity.ok(JwtResponse(token, user.username, user.role))
     }
 
     @PostMapping("/signUp")
