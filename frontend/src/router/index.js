@@ -17,7 +17,7 @@ const routes = [
         component: SignUp
     },
     {
-        path: '/userChat',
+        path: '/chat/:username',
         name: 'UserChat',
         component: UserChat
     },
@@ -37,7 +37,7 @@ const routes = [
         component: SignIn
     },
     {
-        path: '/profile',
+        path: '/profile/:username',
         name: 'Profile',
         component: Profile
     },

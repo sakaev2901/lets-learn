@@ -1,20 +1,5 @@
 <template>
     <v-app>
-        <v-app-bar
-                app
-                color="blue"
-                dark
-                flat
-                dense
-                hide-on-scroll
-        >
-            <div class="d-flex align-center">
-            </div>
-
-            <v-spacer></v-spacer>
-            <span>Let's Learn</span>
-        </v-app-bar>
-
         <v-content>
             <v-navigation-drawer
                     v-model="drawer"
@@ -23,10 +8,14 @@
                     dark
                     expand-on-hover
                     permanent
-                    floating
                     fixed
             >
                 <v-list nav>
+                    <v-list-item>
+                        <v-list-item-content>
+                            <span class="logo">L<span class="second-l">L</span></span>
+                        </v-list-item-content>
+                    </v-list-item>
                     <v-list-item two-line class="px-0">
                         <v-list-item-avatar>
                             <img src="https://randomuser.me/api/portraits/men/81.jpg">
@@ -40,16 +29,52 @@
                     <v-divider>
                     </v-divider>
 
-
-                    <v-list-item v-for="item in items" :key="item.title" :href="item.link">
+                    <v-list-item link="" href="/feed">
                         <v-list-item-icon>
-                            <v-icon>{{ item.icon }}</v-icon>
+                            <v-icon>mdi-view-dashboard</v-icon>
                         </v-list-item-icon>
-
                         <v-list-item-content>
-                            <v-list-item-title>{{ item.title }}</v-list-item-title>
+                            <v-list-item-title>Лента</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
+                    <v-list-item link="" :href="'/profile/' + this.$store.getters.getUsername">
+                        <v-list-item-icon>
+                            <v-icon>mdi-account</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title>Профиль</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item link="" href="/friends">
+                        <v-list-item-icon>
+                            <v-badge color="red" content="6" overlap>
+                                <v-icon>mdi-account-multiple</v-icon>
+                            </v-badge>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title>Друзья</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item link="" href="/chat">
+                        <v-list-item-icon>
+                            <v-badge color="red" content="5" overlap>
+                                <v-icon>mdi-chat</v-icon>
+                            </v-badge>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title>Сообщения</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item link="" href="/settings">
+                        <v-list-item-icon>
+                            <v-icon>mdi-cog</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title>Настройки</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+
+
                     <v-list-item link="" @click="logout()">
                         <v-list-item-icon>
                             <v-icon>mdi-logout</v-icon>
@@ -58,6 +83,7 @@
                             <v-list-item-title>Выйти</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
+
 
                 </v-list>
             </v-navigation-drawer>
@@ -79,12 +105,7 @@
         },
 
         data: () => ({
-            items: [
-                {title: 'Лента', icon: 'mdi-view-dashboard', link: "/feed"},
-                {title: 'Профиль', icon: 'mdi-account', link: "/profile"},
-                {title: 'Сообщения', icon: 'mdi-chat', link: "/chat"}
-            ],
-            drawer: true
+            drawer: false
         }),
         methods: {
             logout() {
@@ -98,5 +119,13 @@
 <style scoped>
     .main {
         width: 80vw;
+    }
+    .logo {
+        font-size: 20px;
+        font-weight: bold;
+        letter-spacing: 3px;
+    }
+    .second-l  {
+        transform: rotate(20deg);
     }
 </style>

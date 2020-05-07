@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.springframework.beans.factory.annotation.Autowired
@@ -37,7 +38,7 @@ open class ApplicationContextConfiguration {
 
     @Bean
     open fun gson(): Gson {
-        return Gson()
+        return GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()
     }
 
     @Bean

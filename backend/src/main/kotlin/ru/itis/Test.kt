@@ -1,24 +1,25 @@
 package ru.itis
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
+import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import ru.itis.config.app.ApplicationContextConfiguration
 import ru.itis.model.User
 import ru.itis.repositories.UsersRepository
+import ru.itis.repositories.UsersRepositoryJpaImpl
 import ru.itis.security.JwtAuthenticationException
-import ru.itis.security.TokenProvider
 import java.util.*
 
 fun  main() {
-//    val applicationContext = AnnotationConfigApplicationContext(ApplicationContextConfiguration::class.java)
-//    val usersRepository = applicationContext.getBean(UsersRepository::class.java)
-//    println(usersRepository)
-//    usersRepository.save(User("Eldar", "1", "ldar"))
-//    println(usersRepository.findByUsername("ldar").name)
-    val token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsZGFyIiwicm9sZSI6IlJPTEVfVVNFUiIsImlhdCI6MTU4NzExNDY5OCwiZXhwIjoxNTg3MTE0Nzg0fQ.hFH9V4UpI4O0kkZgTRD9PtutASMAjWjoane3goeR97g"
-
-    println(validateToken(token))
+    val ldar = User()
+    val dmr = User()
+    ldar.friends = listOf(dmr)
+    dmr.friends = listOf(ldar)
+    val json = GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(ldar.friends)
+    println(json)
 }
 
 fun validateToken(token: String):Boolean {

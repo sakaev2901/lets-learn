@@ -1,6 +1,9 @@
 package ru.itis.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.google.gson.annotations.Expose
 import lombok.Data
+import lombok.ToString
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -8,6 +11,7 @@ import java.util.*
 
 import javax.annotation.sql.DataSourceDefinition
 import javax.persistence.*
+import kotlin.jvm.Transient
 import kotlin.properties.Delegates
 
 @Entity
@@ -19,14 +23,25 @@ class User : UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id = 0
+    @Expose
     lateinit var name: String
+    @Expose
     lateinit var surname: String
     lateinit var mail: String
+    @Expose
     private var username: String = ""
+    @JsonIgnore
     private var password: String = ""
     lateinit var role: String
     @OneToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
     lateinit var posts: List<Post>
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    lateinit var friends: List<User>
+    @ManyToMany
+    @JsonIgnore
+    lateinit var friendRequests: List<User>
 
     constructor()
 

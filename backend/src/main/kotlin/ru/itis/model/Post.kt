@@ -1,10 +1,11 @@
 package ru.itis.model
 
+import com.google.gson.annotations.Expose
 import lombok.Data
 import lombok.ToString
 import javax.persistence.*
+import kotlin.jvm.Transient
 
-@Data
 @Entity
 class Post {
 

@@ -6,36 +6,20 @@
             </v-card-title>
             <v-card-text>
                 <v-list>
-                    <v-list-item class="message-entity">
+                    <v-list-item v-for="message in messages" class="message-entity">
                         <v-list-item-avatar>
-                            <v-img src="https://randomuser.me/api/portraits/men/81.jpg"></v-img>
+                            {{message.sender.name}}
                         </v-list-item-avatar>
                         <v-list-item-content>
-                            Привет
-                        </v-list-item-content>
-                    </v-list-item>
-                    <v-list-item class="message-entity">
-                        <v-list-item-avatar>
-                            <v-img src="https://randomuser.me/api/portraits/men/82.jpg"></v-img>
-                        </v-list-item-avatar>
-                        <v-list-item-content>
-                            Привет
-                        </v-list-item-content>
-                    </v-list-item>
-                    <v-list-item class="message-entity">
-                        <v-list-item-avatar>
-                            <v-img src="https://randomuser.me/api/portraits/men/81.jpg"></v-img>
-                        </v-list-item-avatar>
-                        <v-list-item-content>
-                            Привет
+                            {{message.text}}
                         </v-list-item-content>
                     </v-list-item>
                     <v-list-item>
                         <v-list-item-content>
-                            <v-text-field outlined label="Сообщение...">
+                            <v-text-field outlined label="Сообщение..." v-model="text">
 
                             </v-text-field>
-                            <v-btn>
+                            <v-btn @click="send()">
                                 Отправить
                             </v-btn>
                         </v-list-item-content>
@@ -47,8 +31,85 @@
 </template>
 
 <script>
+    import SockJs from 'sockjs-client'
+    import Stomp from 'webstomp-client'
+    import * as router from "vue-router";
+    import {AXIOS} from "../main";
+
+
     export default {
-        name: "UserChat"
+        name: "UserChat",
+        data: () => ({
+            text: '',
+            messages: [],
+            companion: "",
+            username: "",
+            room: ""
+
+        }),
+        methods: {
+            send() {
+                console.log("Send message:" + this.text);
+                if (this.stompClient && this.stompClient.connected) {
+                    const msg = {
+                        text: this.text,
+                        senderUsername: this.username,
+                        receiverUsername: this.companion
+                    };
+                    console.log(JSON.stringify(msg));
+                    this.stompClient.send("/api/message/"+ this.room, JSON.stringify(msg), {});
+                }
+            },
+            connect() {
+                this.socket = new SockJs('http://localhost:8080/connect')
+                this.stompClient = Stomp.over(this.socket)
+                this.stompClient.connect(
+                    {},
+                    frame => {
+                        console.log(frame)
+                            this.stompClient.subscribe("/chat/" + this.room, tick => {
+                                console.log(JSON.parse(tick.body))
+                                console.log(JSON.parse(tick.body).content)
+                                this.messages.push(JSON.parse(tick.body))
+                            })
+                    },
+                    error => {
+                        console.log(error)
+                    }
+                )
+            },
+            generateRoomName() {
+                if (this.username > this.companion) {
+                    this.room = this.username + "-" + this.companion
+                } else {
+                    this.room = this.companion + "-" + this.username
+                }
+            },
+            loadData() {
+                let self = this
+                AXIOS.get("/messages/" + this.room)
+                    .then(function (response) {
+                        console.log(response.data)
+                        response.data.forEach(message => self.messages.push(message))
+                        console.log(self.messages)
+
+                    })
+                    .catch(function (err) {
+                        console.log(err)
+                    })
+            }
+        },
+
+        mounted() {
+            // this.connect()
+            console.log(44)
+            this.companion = this.$router.history.current.params.username
+            this.username = this.$store.getters.getUsername
+            console.log(this.username + this.companion )
+            this.generateRoomName()
+            this.loadData()
+            this.connect()
+        }
     }
 </script>
 

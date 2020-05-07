@@ -3,7 +3,6 @@ package ru.itis.repositories
 import org.springframework.stereotype.Component
 import ru.itis.model.User
 import javax.persistence.EntityManager
-import javax.persistence.EntityTransaction
 import javax.persistence.PersistenceContext
 import javax.transaction.Transactional
 
@@ -20,5 +19,15 @@ open class UsersRepositoryJpaImpl: UsersRepository {
             .createQuery("select c from User c where c.username = :username", User::class.java)
             .setParameter("username", name)
             .singleResult
+
+    override fun findAllFriendsByUsername(name: String?): List<User>? {
+        val user = entityManager
+                .createQuery("select c from User c where c.username = :username", User::class.java)
+                .setParameter("username", name)
+                .singleResult
+        return user.friends
+    }
+
+
 
 }

@@ -14,7 +14,10 @@
                         Войти
                     </v-btn>
                 </v-form>
-
+                <form method="get">
+                    <input type="hidden" value="1234" name="_csrf">
+                    <input type="submit">
+                </form>
             </v-card-text>
         </v-card>
     </v-container>
