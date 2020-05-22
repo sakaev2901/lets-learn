@@ -16,8 +16,8 @@ import java.util.*
 fun  main() {
     val ldar = User()
     val dmr = User()
-    ldar.friends = listOf(dmr)
-    dmr.friends = listOf(ldar)
+    ldar.friends = arrayListOf(dmr)
+    dmr.friends = arrayListOf(ldar)
     val json = GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(ldar.friends)
     println(json)
 }

@@ -5,8 +5,11 @@ Vue.use(Vuex);
 
 const state = {
   token: localStorage.getItem('user-token') || '',
-  username: localStorage.getItem('user-name') || '',
+  username: localStorage.getItem('user-username') || '',
   role: localStorage.getItem('user-role') || '',
+  name: localStorage.getItem('user-name') || '',
+  surname: localStorage.getItem('user-surname') || '',
+  avatar: localStorage.getItem('user-avatar') || ''
 };
 
 const getters = {
@@ -28,14 +31,27 @@ const getters = {
 
   getToken: state => {
     return state.token
+  },
+
+  getName: state => {
+    return state.name
+  },
+
+  getSurname: state => {
+    return state.surname
+  },
+
+  getAvatar: state => {
+    return state.avatar
   }
 
 };
 
 const mutations = {
   auth_login: (state, user) => {
+    console.log("SAVIIIIIIIIIIIIIIIIIIING")
     localStorage.setItem("user-token", user.token)
-    localStorage.setItem("user-name", user.username)
+    localStorage.setItem("user-username", user.username)
     localStorage.setItem("user-role", () => {
       if (user.role === 'ROLE_USER') {
         return 'user'
@@ -43,15 +59,25 @@ const mutations = {
         return 'admin'
       }
     })
+    localStorage.setItem('user-name', user.name)
+    localStorage.setItem('user-surname', user.surname)
+    localStorage.setItem('user-avatar', user.avatar)
+    console.log("SAVEEEEEEEEEEEED ")
   },
 
   auth_logout: () => {
     state.token = '';
     state.role = '';
     state.username = '';
+    state.name = '';
+    state.surname = '',
+    state.avatar = ''
     localStorage.removeItem('user-token');
     localStorage.removeItem('user-role');
-    localStorage.removeItem('user-name');
+    localStorage.removeItem('user-username');
+    localStorage.removeItem('user-name')
+    localStorage.removeItem('user-surname')
+    localStorage.removeItem('user-avatar')
 }
 };
 

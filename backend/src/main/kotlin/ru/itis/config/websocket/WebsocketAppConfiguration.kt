@@ -1,14 +1,17 @@
 package ru.itis.config.websocket
 
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.EnableAspectJAutoProxy
+import org.springframework.messaging.handler.invocation.HandlerMethodReturnValueHandler
 import org.springframework.messaging.simp.config.MessageBrokerRegistry
-import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker
-import org.springframework.web.socket.config.annotation.StompEndpointRegistry
-import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer
+import org.springframework.web.socket.WebSocketHandler
+import org.springframework.web.socket.config.annotation.*
+import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor
 
 @Configuration
 @EnableWebSocketMessageBroker
+@EnableWebSocket
 open class WebsocketAppConfiguration: WebSocketMessageBrokerConfigurer {
 
     override fun configureMessageBroker(registry: MessageBrokerRegistry) {
@@ -21,4 +24,6 @@ open class WebsocketAppConfiguration: WebSocketMessageBrokerConfigurer {
                 .setAllowedOrigins("http://localhost:8081")
                 .withSockJS()
     }
+
+
 }

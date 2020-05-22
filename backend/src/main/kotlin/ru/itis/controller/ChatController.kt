@@ -38,6 +38,7 @@ class ChatController {
         message.text = messageDto.text
         println(messageDto.receiverUsername)
         messageService.saveMessage(message)
+        simpMessagingTemplate.convertAndSend("/chat/", message)
         simpMessagingTemplate.convertAndSend("/chat/$room", message)
     }
 }

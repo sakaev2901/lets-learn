@@ -33,15 +33,17 @@ class User : UserDetails {
     @JsonIgnore
     private var password: String = ""
     lateinit var role: String
+    lateinit var imageName: String
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     lateinit var posts: List<Post>
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.MERGE])
+    @JoinTable(
+            name = "user_friend"
+    )
     @JsonIgnore
-    lateinit var friends: List<User>
-    @ManyToMany
-    @JsonIgnore
-    lateinit var friendRequests: List<User>
+    lateinit var friends: MutableList<User>
+
 
     constructor()
 
@@ -62,6 +64,13 @@ class User : UserDetails {
     override fun isAccountNonExpired() = true
     override fun isAccountNonLocked() = true
     override fun getUsername() = this.username
+
+    fun addFriend(user: User) {
+        if (friends == null) {
+            friends = LinkedList<User>()
+        }
+        friends.add(user)
+    }
 
 
 

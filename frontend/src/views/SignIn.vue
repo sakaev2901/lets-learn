@@ -8,7 +8,7 @@
                 <v-form>
                     <v-text-field label="Username" v-model="username">
                     </v-text-field>
-                    <v-text-field label="Password" v-model="password">
+                    <v-text-field label="Password" type="password" v-model="password">
                     </v-text-field>
                     <v-btn @click="signIn">
                         Войти
@@ -40,13 +40,25 @@
                     password: self.password
                 })
                     .then(function (response) {
-                        console.log(response.data.token)
-                            self.$store.dispatch('login', {
+
+                        console.log(response.data.name)
+                        self.$store.state.name = response.data.name
+                        self.$store.state.surname = response.data.surname
+                        self.$store.state.username = response.data.username
+                        self.$store.state.token = response.data.token
+                        self.$store.state.avatar = response.data.avatar
+                        self.$store.dispatch('login', {
                                 token: response.data.token,
                                 username: response.data.username,
-                                role: response.data.role
-                            })
-                            self.$router.push("/profile")
+                                role: response.data.role,
+                                name: response.data.name,
+                                surname: response.data.surname,
+                                avatar: response.data.avatar
+                            }).then(
+                                function () {
+                                    self.$router.push("/profile/" + response.data.username)
+                                }
+                            )
                         }
                     ).catch(
                     function (response) {
