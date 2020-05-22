@@ -10,6 +10,9 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+frontend/assets/img/post
+frontend/assets/img/profile
+
 # Package Files #
 *.jar
 *.war
