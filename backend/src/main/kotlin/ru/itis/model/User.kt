@@ -37,13 +37,15 @@ class User : UserDetails {
     @OneToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     lateinit var posts: List<Post>
-    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.MERGE])
+    @ManyToMany(fetch = FetchType.EAGER, cascade = [CascadeType.MERGE])
     @JoinTable(
             name = "user_friend"
     )
     @JsonIgnore
     lateinit var friends: MutableList<User>
-
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    lateinit var chats: MutableList<Chat>
 
     constructor()
 

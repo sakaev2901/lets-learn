@@ -5,8 +5,9 @@ import SignIn from "../views/SignIn";
 import Profile from "../views/Profile";
 import Confirmation from "../views/Confirmation";
 import Test from "../views/Test";
-import Chat from "../views/Chat";
+import Chat from "../views/Chats";
 import UserChat from "../views/UserChat";
+import Feed from "../views/Feed";
 
 Vue.use(VueRouter)
 
@@ -45,6 +46,11 @@ const routes = [
         path: '/confirmation',
         name: "Confirmation",
         component: Confirmation
+    },
+    {
+        path: '/feed',
+        name: "feed",
+        component: Feed
     }
 ]
 

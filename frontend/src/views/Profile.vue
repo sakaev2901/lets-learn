@@ -5,7 +5,7 @@
                 <v-row>
                     <v-flex class="col-5">
                         <v-avatar size="200">
-                            <v-img src="../assets/img/card.png"/>
+                            <img :src="'http://localhost:8080/api/profile/image/' + user.imageName">
                         </v-avatar>
                     </v-flex>
                     <v-flex>
@@ -38,7 +38,7 @@
                                 <v-list>
                                     <v-list-item v-for="friend in friends" link :href="'/profile/' + friend.username">
                                         <v-list-item-avatar>
-                                            <img src="https://randomuser.me/api/portraits/men/81.jpg">
+                                            <img :src="'http://localhost:8080/api/profile/image/' + friend.imageName">
                                         </v-list-item-avatar>
                                         <v-list-item-content>
                                             {{friend.name}}
@@ -77,7 +77,7 @@
             <v-card-actions>
                 <v-list-item>
                     <v-list-item-avatar>
-                        <v-img src="https://randomuser.me/api/portraits/men/81.jpg"></v-img>
+                        <img :src="'http://localhost:8080/api/profile/image/' + article.user.imageName">
                     </v-list-item-avatar>
                     <v-list-item-content>
                         <v-list-item-title>{{article.user.name}} {{article.user.surname}}</v-list-item-title>
@@ -100,8 +100,7 @@
             <v-list>
                 <v-list-item v-if="article.firstComment">
                     <v-list-item-avatar>
-                        <v-img src="https://randomuser.me/api/portraits/men/81.jpg">
-                        </v-img>
+                        <img :src="'http://localhost:8080/api/profile/image/' + article.firstComment.owner.imageName">
                     </v-list-item-avatar>
                     <v-list-item-content>
                         <v-list-item-title>{{article.firstComment.owner.name}} {{article.firstComment.owner.surname}}</v-list-item-title>
@@ -113,8 +112,7 @@
                 <a @click="showComments = !showComments" v-if="!showComments">Открыть комментарии...</a>
                 <v-list-item v-for="comment in article.comments" v-if="showComments">
                     <v-list-item-avatar>
-                        <v-img src="https://randomuser.me/api/portraits/men/81.jpg">
-                        </v-img>
+                        <img :src="'http://localhost:8080/api/profile/image/' + comment.owner.imageName">
                     </v-list-item-avatar>
                     <v-list-item-content>
                         <v-list-item-title>{{comment.owner.name}} {{comment.owner.surname}}</v-list-item-title>
@@ -175,7 +173,12 @@
                 AXIOS.post("/post", formData, {headers: {'Authorization': 'Bearer ' + this.$store.getters.getToken}})
                     .then(
                         function (response) {
-                            self.articles.push({title: self.title, text: self.text, imageName: response.data.imageName})
+                            console.log(response.data)
+                            // self.articles.push({title: self.title, text: self.text, imageName: response.data.imageName,
+                            //     likes: response.data.likes,
+                            //     comments: response.data.comments
+                            // })
+                            self.articles.push(response.data)
                         }
                     )
             },
@@ -267,7 +270,8 @@
                                         owner: {
                                             username: self.$store.getters.getUsername,
                                             name: self.$store.getters.getName,
-                                            surname: self.$store.getters.getSurname
+                                            surname: self.$store.getters.getSurname,
+                                            imageName: self.$store.getters.getAvatar
                                         }
                                     }
                                 } else {
@@ -276,7 +280,8 @@
                                         owner: {
                                             username: self.$store.getters.getUsername,
                                             name: self.$store.getters.getName,
-                                            surname: self.$store.getters.getSurname
+                                            surname: self.$store.getters.getSurname,
+                                            imageName: self.$store.getters.getAvatar
                                         }
                                     })
                                 }

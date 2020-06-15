@@ -1,30 +1,39 @@
 <template>
-    <v-container>
-        <v-card>
-            <v-card-title>
-                Дамир Нафиков
+    <v-container class="chat-container">
+        <v-card class="chat-card">
+            <v-card-title v-if="username !== chat.firstUser.username" class="chat-title">
+                    {{chat.firstUser.username}}
             </v-card-title>
-            <v-card-text>
-                <v-list>
+            <v-card-title v-else class="chat-title">
+                {{chat.secondUser.name}} {{chat.secondUser.surname}}
+            </v-card-title>
+            <v-divider/>
+            <v-card-text style="">
+                <v-list class="chat-list">
                     <v-list-item v-for="message in messages" class="message-entity">
                         <v-list-item-avatar>
-                            {{message.sender.name}}
+                            <img :src="'http://localhost:8080/api/profile/image/' + message.sender.imageName">
                         </v-list-item-avatar>
                         <v-list-item-content>
+                            <v-list-item-title>
+                                {{message.sender.name}}
+                            </v-list-item-title>
                             {{message.text}}
-                        </v-list-item-content>
-                    </v-list-item>
-                    <v-list-item>
-                        <v-list-item-content>
-                            <v-text-field outlined label="Сообщение..." v-model="text">
 
-                            </v-text-field>
-                            <v-btn @click="send()">
-                                Отправить
-                            </v-btn>
                         </v-list-item-content>
                     </v-list-item>
                 </v-list>
+                <v-divider/>
+                <v-list-item>
+                    <v-list-item-content>
+                        <v-text-field @keyup.enter="send()" outlined label="Сообщение..." v-model="text">
+
+                        </v-text-field>
+                        <v-btn @keyup.enter="send()">
+                            Отправить
+                        </v-btn>
+                    </v-list-item-content>
+                </v-list-item>
             </v-card-text>
         </v-card>
     </v-container>
@@ -44,7 +53,8 @@
             messages: [],
             companion: "",
             username: "",
-            room: ""
+            room: "",
+            chat: {}
 
         }),
         methods: {
@@ -57,21 +67,33 @@
                         receiverUsername: this.companion
                     };
                     console.log(JSON.stringify(msg));
-                    this.stompClient.send("/api/message/"+ this.room, JSON.stringify(msg), {});
+                    this.stompClient.send("/api/message/" + this.room, JSON.stringify(msg), {});
+                    this.text = ''
+                    setTimeout(this.scrollToBottom, 100)
                 }
             },
+            scrollToBottom() {
+                this.$nextTick(() => {
+                    var container = this.$el.querySelector(".chat-list");
+                    container.scrollTop = container.scrollHeight + 10;
+                    // var el = document.querySelectorAll('.message-entity')
+                    // var last = el[el.length - 1]
+                    // last.scrollIntoView({block: "center", behavior: "smooth"})
+                });
+            },
             connect() {
+
                 this.socket = new SockJs('http://localhost:8080/connect')
                 this.stompClient = Stomp.over(this.socket)
                 this.stompClient.connect(
                     {},
                     frame => {
                         console.log(frame)
-                            this.stompClient.subscribe("/chat/" + this.room, tick => {
-                                console.log(JSON.parse(tick.body))
-                                console.log(JSON.parse(tick.body).content)
-                                this.messages.push(JSON.parse(tick.body))
-                            })
+                        this.stompClient.subscribe("/chat/" + this.room, tick => {
+                            console.log(JSON.parse(tick.body))
+                            console.log(JSON.parse(tick.body).content)
+                            this.messages.push(JSON.parse(tick.body))
+                        })
                     },
                     error => {
                         console.log(error)
@@ -87,6 +109,12 @@
             },
             loadData() {
                 let self = this
+                AXIOS.get("/user/chat/" + this.room)
+                    .then(response => {
+                        self.chat = response.data
+                        console.log(self.chat)
+                    })
+                    .catch(err => console.log(err))
                 AXIOS.get("/messages/" + this.room)
                     .then(function (response) {
                         console.log(response.data)
@@ -105,10 +133,13 @@
             console.log(44)
             this.companion = this.$router.history.current.params.username
             this.username = this.$store.getters.getUsername
-            console.log(this.username + this.companion )
+            console.log(this.username + this.companion)
             this.generateRoomName()
             this.loadData()
+            this.scrollToBottom()
             this.connect()
+            setTimeout(this.scrollToBottom, 300)
+            // this.scrollToBottom()
         }
     }
 </script>
@@ -116,7 +147,28 @@
 <style scoped>
     .message-entity {
         border: 1px grey solid;
-        border-radius: 10px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
         margin: 10px 0;
+        width: 50%;
+    }
+
+    .chat-card {
+        height: 90vh;
+        /*overflow-y: scroll;*/
+    }
+
+    .chat-list {
+        overflow-y: auto;
+        box-sizing: border-box;
+        height: 60vh
+    }
+
+    /*.chat-list::-webkit-scrollbar {*/
+    /*    display: none;*/
+    /*}*/
+    .chat-title {
+
     }
 </style>

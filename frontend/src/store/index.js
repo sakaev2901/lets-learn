@@ -14,7 +14,7 @@ const state = {
 
 const getters = {
   isAuthenticated: state => {
-    return state.token != null && state.token != '';
+    return state.token != null && state.token !== '';
   },
 
   isAdmin: state => {

@@ -17,13 +17,13 @@ class Post {
     lateinit var text: String
     lateinit var imageName: String
     @ManyToMany(fetch = FetchType.EAGER)
-    lateinit var likes: MutableList<User>
+    var likes: MutableList<User> = LinkedList<User>()
     @ManyToOne
     @ToString.Exclude
     var user: User? = null
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "post")
 //    @JoinTable('posts_comment')
-    lateinit var comments: List<Comment>
+    var comments: List<Comment> =  LinkedList<Comment>()
 
     fun addLike(user: User) {
         if (likes == null) {

@@ -1,119 +1,100 @@
 <template>
-            <v-container>
-                <v-row justify="space-around">
-                    <v-col cols="12">
-                        <v-select
-                                v-model="color"
-                                :items="colors"
-                                label="Color"
-                        ></v-select>
-                    </v-col>
-
-                    <v-switch
-                            v-model="drawer"
-                            class="ma-2"
-                            label="v-model"
-                    ></v-switch>
-
-                    <v-switch
-                            v-model="miniVariant"
-                            class="ma-2"
-                            label="Mini variant"
-                    ></v-switch>
-
-                    <v-switch
-                            v-model="expandOnHover"
-                            class="ma-2"
-                            label="Expand on hover"
-                    ></v-switch>
-
-                    <v-switch
-                            v-model="background"
-                            class="ma-2"
-                            label="Background"
-                    ></v-switch>
-
-                    <v-switch
-                            v-model="right"
-                            class="ma-2"
-                            label="Right"
-                    ></v-switch>
-                </v-row>
-
-                <v-card
-                        height="400"
-                        class="overflow-hidden"
-                >
-                    <v-navigation-drawer
-                            v-model="drawer"
-                            :color="color"
-                            :expand-on-hover="expandOnHover"
-                            :mini-variant="miniVariant"
-                            :right="right"
-                            :src="bg"
-                            absolute
-                            dark
-                    >
-                        <v-list
-                                dense
-                                nav
-                                class="py-0"
-                        >
-                            <v-list-item two-line :class="miniVariant && 'px-0'">
-                                <v-list-item-avatar>
-                                    <img src="https://randomuser.me/api/portraits/men/81.jpg">
-                                </v-list-item-avatar>
-
-                                <v-list-item-content>
-                                    <v-list-item-title>Application</v-list-item-title>
-                                    <v-list-item-subtitle>Subtext</v-list-item-subtitle>
-                                </v-list-item-content>
-                            </v-list-item>
-
-                            <v-divider></v-divider>
-
-                            <v-list-item
-                                    v-for="item in items"
-                                    :key="item.title"
-                                    link
-                            >
-                                <v-list-item-icon>
-                                    <v-icon>{{ item.icon }}</v-icon>
-                                </v-list-item-icon>
-
-                                <v-list-item-content>
-                                    <v-list-item-title>{{ item.title }}</v-list-item-title>
-                                </v-list-item-content>
-                            </v-list-item>
-                        </v-list>
-                    </v-navigation-drawer>
-                </v-card>
-            </v-container>
+    <div>
+        <Chat
+                :participants="participants"
+                :myself="myself"
+                :messages="messages"
+                :onType="onType"
+                :onMessageSubmit="onMessageSubmit"
+                :chatTitle="chatTitle"
+                :placeholder="placeholder"
+                :colors="colors"
+                :borderStyle="borderStyle"
+                :hideCloseButton="hideCloseButton"
+                :closeButtonIconSize="closeButtonIconSize"
+                :submitIconSize="submitIconSize"/>
+    </div>
 </template>
 
 <script>
+    import {Chat}  from 'vue-quick-chat'
     export default {
-        name: "Test",
-        data () {
+        name: 'Test',
+        components: {
+            Chat
+        },
+        data(){
             return {
-                drawer: true,
-                items: [
-                    { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-                    { title: 'Photos', icon: 'mdi-image' },
-                    { title: 'About', icon: 'mdi-help-box' },
+                participants: [
+                    {
+                        name: 'Arnaldo',
+                        id: 1
+                    },
+                    {
+                        name: 'José',
+                        id: 2
+                    }
                 ],
-                color: 'primary',
-                colors: [
-                    'primary',
-                    'blue',
-                    'success',
-                    'red',
-                    'teal',
+                myself: {
+                    name: 'Matheus S.',
+                    id: 3
+                },
+                messages: [
+                    {
+                        content: 'received messages',
+                        myself: false,
+                        participantId: 1,
+                        timestamp: { year: 2019, month: 3, day: 5, hour: 20, minute: 10, second: 3, millisecond: 123 }
+                    },
+                    {
+                        content: 'sent messages',
+                        myself: true,
+                        participantId: 3,
+                        timestamp: { year: 2019, month: 4, day: 5, hour: 19, minute: 10, second: 3, millisecond:123 }
+                    },
+                    {
+                        content: 'other received messages',
+                        myself: false,
+                        participantId: 2,
+                        timestamp: { year: 2019, month: 5, day: 5, hour: 10, minute: 10, second: 3, millisecond: 123 }
+                    }
                 ],
-                right: true,
-                miniVariant: false,
-                expandOnHover: false,
-                background: false,
+                chatTitle: 'My chat title',
+                placeholder: 'send your message',
+                colors:{
+                    header:{
+                        bg: '#d30303',
+                        text: '#fff'
+                    },
+                    message:{
+                        myself: {
+                            bg: '#fff',
+                            text: '#bdb8b8'
+                        },
+                        others: {
+                            bg: '#fb4141',
+                            text: '#fff'
+                        }
+                    },
+                    submitIcon: '#b91010'
+                },
+                borderStyle: {
+                    topLeft: "10px",
+                    topRight: "10px",
+                    bottomLeft: "10px",
+                    bottomRight: "10px",
+                },
+                hideCloseButton: false,
+                submitIconSize: "20px",
+                closeButtonIconSize: "20px"
+            }
+        },
+        methods: {
+            onType: function (event){
+                //here you can set any behavior
+            },
+            onMessageSubmit: function(message){
+                //here you can set any behavior
             }
         }
     }

@@ -19,5 +19,7 @@ class Message {
     lateinit var sender: User
     @ManyToOne
     lateinit var receiver: User
+    @ManyToOne
+    lateinit var chat: Chat
 
 }

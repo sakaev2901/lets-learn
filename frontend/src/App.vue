@@ -94,7 +94,7 @@
                 <v-list nav>
                     <v-list-item v-for="friend of friends" link :href="'/profile/' + friend.username">
                         <v-list-item-avatar>
-                            <img src="https://randomuser.me/api/portraits/men/81.jpg">
+                            <img :src="'http://localhost:8080/api/profile/image/' + friend.imageName">
                         </v-list-item-avatar>
                         <v-list-item-content>
                             {{friend.name}}

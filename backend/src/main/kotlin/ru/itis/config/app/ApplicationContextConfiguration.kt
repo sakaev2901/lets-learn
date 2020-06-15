@@ -34,12 +34,8 @@ import javax.persistence.EntityManagerFactory
 @Configuration
 @ComponentScan("ru.itis")
 @PropertySource("classpath:application.properties")
-open class ApplicationContextConfiguration {
+open class      ApplicationContextConfiguration {
 
-    @Bean
-    open fun gson(): Gson {
-        return GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()
-    }
 
     @Bean
     open fun corsConfigurer(): WebMvcConfigurer {

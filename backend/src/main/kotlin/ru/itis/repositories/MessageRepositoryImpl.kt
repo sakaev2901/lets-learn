@@ -1,6 +1,7 @@
 package ru.itis.repositories
 
 import org.springframework.stereotype.Repository
+import ru.itis.model.Chat
 import ru.itis.model.Message
 import ru.itis.model.User
 import javax.persistence.EntityManager
@@ -21,11 +22,16 @@ open class MessageRepositoryImpl : MessageRepository {
         println("here")
     }
 
-    override fun findAllRoomMessages(firstUser: User, secondUser: User) =  entityManager.createQuery("select c from Message c where ((c.receiver = :firstUser) or (c.receiver = :secondUser) and (c.sender = :firstUser) or (c.sender = :secondUser))", Message::class.java)
+    override fun findAllRoomMessages(firstUser: User, secondUser: User) =  entityManager.createQuery("select c from Message c where ((c.receiver = :firstUser) and (c.receiver = :secondUser)) or ((c.sender = :firstUser) and (c.sender = :secondUser))", Message::class.java)
                 .setParameter("firstUser", firstUser)
                 .setParameter("secondUser", secondUser)
                 .resultList
 
+    override fun findChatMessages(chat: Chat): List<Message> {
+        return entityManager.createQuery("select c from Message c where c.chat = :chat", Message::class.java)
+                .setParameter("chat", chat)
+                .resultList
+    }
 
 
 }

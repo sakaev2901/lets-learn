@@ -1,4 +1,4 @@
-GET http://localhost:8081/api/allPosts
+GET http://localhost:8080/api/userChats/ldar
 Accept: application/json
 
 ###
